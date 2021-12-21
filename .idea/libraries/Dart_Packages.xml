@@ -89,7 +89,7 @@
         <entry key="extended_image">
           <value>
             <list>
-              <option value="$PROJECT_DIR$/../../../FlutterSDK/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/extended_image-5.1.0/lib" />
+              <option value="$PROJECT_DIR$/../../../FlutterSDK/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/extended_image-4.0.0/lib" />
             </list>
           </value>
         </entry>
@@ -598,7 +598,7 @@
       <root url="file://$PROJECT_DIR$/../../../FlutterSDK/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/collection-1.15.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../FlutterSDK/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/crypto-3.0.1/lib" />
       <root url="file://$PROJECT_DIR$/../../../FlutterSDK/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/cupertino_icons-1.0.3/lib" />
-      <root url="file://$PROJECT_DIR$/../../../FlutterSDK/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/extended_image-5.1.0/lib" />
+      <root url="file://$PROJECT_DIR$/../../../FlutterSDK/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/extended_image-4.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../FlutterSDK/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/extended_image_library-3.1.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../FlutterSDK/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/extended_text_field-8.0.0/lib" />
       <root url="file://$PROJECT_DIR$/../../../FlutterSDK/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/extended_text_library-7.0.0/lib" />

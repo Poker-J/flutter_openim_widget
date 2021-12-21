@@ -75,7 +75,7 @@
     },
     {
       "name": "extended_image",
-      "rootUri": "file:///D:/FlutterSDK/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/extended_image-5.1.0",
+      "rootUri": "file:///D:/FlutterSDK/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/extended_image-4.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -506,7 +506,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-12-21T09:54:31.496244Z",
+  "generated": "2021-12-21T10:32:33.765432Z",
   "generator": "pub",
   "generatorVersion": "2.13.4"
 }

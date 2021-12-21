@@ -25,127 +25,127 @@ class ChatPicturePreview extends StatelessWidget {
       color: Color(0xFF000000),
       child: Stack(
         children: [
-          ExtendedImageGesturePageView.builder(
-            controller: ExtendedPageController(
-              initialPage: 0,
-              pageSpacing: 10,
-            ),
-            itemCount: 1,
-            itemBuilder: (BuildContext context, int index) {
-              if (null != url && url!.isNotEmpty) {
-                return ExtendedImage.network(
-                  url!,
-                  fit: BoxFit.contain,
-                  mode: ExtendedImageMode.gesture,
-                  clearMemoryCacheWhenDispose: true,
-                  handleLoadingProgress: true,
-                  loadStateChanged: (ExtendedImageState state) {
-                    switch (state.extendedImageLoadState) {
-                      case LoadState.loading:
-                        {
-                          final ImageChunkEvent? loadingProgress =
-                              state.loadingProgress;
-                          final double? progress =
-                              loadingProgress?.expectedTotalBytes != null
-                                  ? loadingProgress!.cumulativeBytesLoaded /
-                                      loadingProgress.expectedTotalBytes!
-                                  : null;
-                          return Center(
-                            child: Container(
-                              width: 20.0,
-                              height: 20.0,
-                              child: CircularProgressIndicator(
-                                value: progress,
-                              ),
-                            ),
-                          );
-                        }
-                      case LoadState.completed:
-                        {
-                          ///if you don't want override completed widget
-                          ///please return null or state.completedWidget
-                          //return null;
-                          //return state.completedWidget;
-                          // return ExtendedRawImage(
-                          //   image: state.extendedImageInfo?.image,
-                          // );
-                          return null;
-                        }
-                      case LoadState.failed:
-                        //remove memory cached
-                        state.imageProvider.evict();
-                        return _errorView();
-                    }
-                  },
-                  initGestureConfigHandler: (ExtendedImageState state) {
-                    return GestureConfig(
-                      //you must set inPageView true if you want to use ExtendedImageGesturePageView
-                      inPageView: true,
-                      initialScale: 1.0,
-                      maxScale: 5.0,
-                      animationMaxScale: 6.0,
-                      initialAlignment: InitialAlignment.center,
-                    );
-                  },
-                );
-              } else {
-                return ExtendedImage.file(
-                  file!,
-                  fit: BoxFit.contain,
-                  mode: ExtendedImageMode.gesture,
-                  clearMemoryCacheWhenDispose: true,
-                  loadStateChanged: (ExtendedImageState state) {
-                    switch (state.extendedImageLoadState) {
-                      case LoadState.loading:
-                        {
-                          final ImageChunkEvent? loadingProgress =
-                              state.loadingProgress;
-                          final double? progress =
-                              loadingProgress?.expectedTotalBytes != null
-                                  ? loadingProgress!.cumulativeBytesLoaded /
-                                      loadingProgress.expectedTotalBytes!
-                                  : null;
-                          return Center(
-                            child: Container(
-                              width: 20.0,
-                              height: 20.0,
-                              child: CircularProgressIndicator(
-                                value: progress,
-                              ),
-                            ),
-                          );
-                        }
-                      case LoadState.completed:
-                        {
-                          ///if you don't want override completed widget
-                          ///please return null or state.completedWidget
-                          //return null;
-                          //return state.completedWidget;
-                          // return ExtendedRawImage(
-                          //   image: state.extendedImageInfo?.image,
-                          // );
-                          return null;
-                        }
-                      case LoadState.failed:
-                        //remove memory cached
-                        state.imageProvider.evict();
-                        return _errorView();
-                    }
-                  },
-                  initGestureConfigHandler: (ExtendedImageState state) {
-                    return GestureConfig(
-                      //you must set inPageView true if you want to use ExtendedImageGesturePageView
-                      inPageView: true,
-                      initialScale: 1.0,
-                      maxScale: 5.0,
-                      animationMaxScale: 6.0,
-                      initialAlignment: InitialAlignment.center,
-                    );
-                  },
-                );
-              }
-            },
-          ),
+          // ExtendedImageGesturePageView.builder(
+          //   controller: ExtendedPageController(
+          //     initialPage: 0,
+          //     pageSpacing: 10,
+          //   ),
+          //   itemCount: 1,
+          //   itemBuilder: (BuildContext context, int index) {
+          //     if (null != url && url!.isNotEmpty) {
+          //       return ExtendedImage.network(
+          //         url!,
+          //         fit: BoxFit.contain,
+          //         mode: ExtendedImageMode.gesture,
+          //         clearMemoryCacheWhenDispose: true,
+          //         handleLoadingProgress: true,
+          //         loadStateChanged: (ExtendedImageState state) {
+          //           switch (state.extendedImageLoadState) {
+          //             case LoadState.loading:
+          //               {
+          //                 final ImageChunkEvent? loadingProgress =
+          //                     state.loadingProgress;
+          //                 final double? progress =
+          //                     loadingProgress?.expectedTotalBytes != null
+          //                         ? loadingProgress!.cumulativeBytesLoaded /
+          //                             loadingProgress.expectedTotalBytes!
+          //                         : null;
+          //                 return Center(
+          //                   child: Container(
+          //                     width: 20.0,
+          //                     height: 20.0,
+          //                     child: CircularProgressIndicator(
+          //                       value: progress,
+          //                     ),
+          //                   ),
+          //                 );
+          //               }
+          //             case LoadState.completed:
+          //               {
+          //                 ///if you don't want override completed widget
+          //                 ///please return null or state.completedWidget
+          //                 //return null;
+          //                 //return state.completedWidget;
+          //                 // return ExtendedRawImage(
+          //                 //   image: state.extendedImageInfo?.image,
+          //                 // );
+          //                 return null;
+          //               }
+          //             case LoadState.failed:
+          //               //remove memory cached
+          //               state.imageProvider.evict();
+          //               return _errorView();
+          //           }
+          //         },
+          //         initGestureConfigHandler: (ExtendedImageState state) {
+          //           return GestureConfig(
+          //             //you must set inPageView true if you want to use ExtendedImageGesturePageView
+          //             inPageView: true,
+          //             initialScale: 1.0,
+          //             maxScale: 5.0,
+          //             animationMaxScale: 6.0,
+          //             initialAlignment: InitialAlignment.center,
+          //           );
+          //         },
+          //       );
+          //     } else {
+          //       return ExtendedImage.file(
+          //         file!,
+          //         fit: BoxFit.contain,
+          //         mode: ExtendedImageMode.gesture,
+          //         clearMemoryCacheWhenDispose: true,
+          //         loadStateChanged: (ExtendedImageState state) {
+          //           switch (state.extendedImageLoadState) {
+          //             case LoadState.loading:
+          //               {
+          //                 final ImageChunkEvent? loadingProgress =
+          //                     state.loadingProgress;
+          //                 final double? progress =
+          //                     loadingProgress?.expectedTotalBytes != null
+          //                         ? loadingProgress!.cumulativeBytesLoaded /
+          //                             loadingProgress.expectedTotalBytes!
+          //                         : null;
+          //                 return Center(
+          //                   child: Container(
+          //                     width: 20.0,
+          //                     height: 20.0,
+          //                     child: CircularProgressIndicator(
+          //                       value: progress,
+          //                     ),
+          //                   ),
+          //                 );
+          //               }
+          //             case LoadState.completed:
+          //               {
+          //                 ///if you don't want override completed widget
+          //                 ///please return null or state.completedWidget
+          //                 //return null;
+          //                 //return state.completedWidget;
+          //                 // return ExtendedRawImage(
+          //                 //   image: state.extendedImageInfo?.image,
+          //                 // );
+          //                 return null;
+          //               }
+          //             case LoadState.failed:
+          //               //remove memory cached
+          //               state.imageProvider.evict();
+          //               return _errorView();
+          //           }
+          //         },
+          //         initGestureConfigHandler: (ExtendedImageState state) {
+          //           return GestureConfig(
+          //             //you must set inPageView true if you want to use ExtendedImageGesturePageView
+          //             inPageView: true,
+          //             initialScale: 1.0,
+          //             maxScale: 5.0,
+          //             animationMaxScale: 6.0,
+          //             initialAlignment: InitialAlignment.center,
+          //           );
+          //         },
+          //       );
+          //     }
+          //   },
+          // ),
           /* null != provider
               ? PhotoView(
                   // onTapDown: (context, details, value) => Navigator.pop(context),
