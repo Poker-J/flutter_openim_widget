@@ -80,6 +80,7 @@ class ConversationItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Slidable(
+      actionPane: SlidableScrollActionPane(),
       child: _ConversationView(
         title: title,
         content: content,
@@ -104,11 +105,7 @@ class ConversationItemView extends StatelessWidget {
         onTap: onTap,
         notDisturb: notDisturb,
       ),
-      endActionPane: ActionPane(
-        motion: DrawerMotion(),
-        // extentRatio: 0.75,
-        children: slideActions.map((e) => _SlidableAction(item: e)).toList(),
-      ),
+
     );
   }
 }

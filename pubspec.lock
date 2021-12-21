@@ -53,11 +53,9 @@ packages:
   chewie:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "94da39e6bb302a12874cb528cc6880e4dd526384"
-      url: "https://github.com/hrxiang/chewie.git"
-    source: git
+      name: chewie
+      url: "https://pub.flutter-io.cn"
+    source: hosted
     version: "1.2.2"
   clock:
     dependency: transitive
@@ -172,19 +170,17 @@ packages:
   flutter_slidable:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "9d398edaef16061c1c08872daeb484b958f59748"
-      url: "https://github.com/letsar/flutter_slidable.git"
-    source: git
-    version: "1.1.0"
+      name: flutter_slidable
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.6.0"
   flutter_svg:
     dependency: "direct main"
     description:
       name: flutter_svg
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.0"
+    version: "0.21.0+1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -292,14 +288,14 @@ packages:
       name: path_drawing
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.0"
+    version: "0.5.1+1"
   path_parsing:
     dependency: transitive
     description:
       name: path_parsing
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.0"
+    version: "0.2.1"
   path_provider:
     dependency: "direct main"
     description:
@@ -348,7 +344,7 @@ packages:
       name: permission_handler
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "8.1.6"
+    version: "6.1.3"
   permission_handler_platform_interface:
     dependency: transitive
     description:
@@ -390,7 +386,7 @@ packages:
       name: provider
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "6.0.1"
+    version: "5.0.0"
   record:
     dependency: "direct main"
     description:
