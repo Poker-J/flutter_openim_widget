@@ -26,9 +26,8 @@ class ChatPicturePreview extends StatelessWidget {
       child: Stack(
         children: [
           ExtendedImageGesturePageView.builder(
-            controller: ExtendedPageController(
+            controller: PageController(
               initialPage: 0,
-              pageSpacing: 10,
             ),
             itemCount: 1,
             itemBuilder: (BuildContext context, int index) {
