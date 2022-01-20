@@ -87,6 +87,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
     );*/
     return Container(
       height: 190.h,
+      color: Color(0xFFF2F2F2),
       child: Stack(
         children: [
           FadeInUp(
@@ -102,10 +103,11 @@ class _ChatToolsViewState extends State<ChatToolsView>
   Widget _buildToolsLayout() => Container(
         alignment: Alignment.center,
         padding: EdgeInsets.symmetric(horizontal: 38.w, vertical: 17.h),
-        child: Row(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _toolsOption(ToolsItem(
                   label: UILocalizations.album,
@@ -115,22 +117,6 @@ class _ChatToolsViewState extends State<ChatToolsView>
                     onTap: widget.onTapAlbum,
                   ),
                 )),
-                SizedBox(
-                  height: 14.h,
-                ),
-                _toolsOption(ToolsItem(
-                  label: UILocalizations.file,
-                  style: toolsTextStyle,
-                  image: _buildBtn(
-                    icon: IconUtil.toolsFile(),
-                    onTap: widget.onTapFile,
-                  ),
-                )),
-              ],
-            ),
-            Spacer(),
-            Column(
-              children: [
                 _toolsOption(ToolsItem(
                   label: UILocalizations.camera,
                   style: toolsTextStyle,
@@ -139,21 +125,29 @@ class _ChatToolsViewState extends State<ChatToolsView>
                     onTap: widget.onTapCamera,
                   ),
                 )),
-                SizedBox(
-                  height: 14.h,
-                ),
                 _toolsOption(ToolsItem(
-                  label: UILocalizations.carte,
+                  label: UILocalizations.file,
                   style: toolsTextStyle,
                   image: _buildBtn(
-                    icon: IconUtil.toolsCarte(),
-                    onTap: widget.onTapCarte,
+                    icon: IconUtil.toolsFile(),
+                    onTap: widget.onTapFile,
+                  ),
+                )),
+                _toolsOption(ToolsItem(
+                  label: UILocalizations.location,
+                  style: toolsTextStyle,
+                  image: _buildBtn(
+                    icon: IconUtil.toolsLocation(),
+                    onTap: widget.onTapLocation,
                   ),
                 )),
               ],
             ),
-            Spacer(),
-            Column(
+            SizedBox(
+              height: 14.h,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _toolsOption(ToolsItem(
                   label: UILocalizations.videoCall,
@@ -163,33 +157,56 @@ class _ChatToolsViewState extends State<ChatToolsView>
                     onTap: widget.onTapVideoCall,
                   ),
                 )),
-                SizedBox(
-                  height: 14.h,
-                ),
-                _toolsOption(ToolsItem(
-                  label: UILocalizations.voiceInput,
-                  style: toolsTextStyle,
-                  image: _buildBtn(
-                    icon: IconUtil.toolsVoiceInput(),
-                    onTap: () {
-                      setState(() {
-                        _enabledVoiceInput = true;
-                        _controller.forward();
-                      });
-                    },
-                  ),
-                )),
               ],
-            ),
-            Spacer(),
-            _toolsOption(ToolsItem(
-              label: UILocalizations.location,
-              style: toolsTextStyle,
-              image: _buildBtn(
-                icon: IconUtil.toolsLocation(),
-                onTap: widget.onTapLocation,
-              ),
-            )),
+            )
+            // Column(
+            //   children: [
+            //
+            //
+            //
+            //   ],
+            // ),
+            // Spacer(),
+            // Column(
+            //   children: [
+            //
+            //     SizedBox(
+            //       height: 14.h,
+            //     ),
+            //     _toolsOption(ToolsItem(
+            //       label: UILocalizations.carte,
+            //       style: toolsTextStyle,
+            //       image: _buildBtn(
+            //         icon: IconUtil.toolsCarte(),
+            //         onTap: widget.onTapCarte,
+            //       ),
+            //     )),
+            //   ],
+            // ),
+            // Spacer(),
+            // Column(
+            //   children: [
+            //
+            //     SizedBox(
+            //       height: 14.h,
+            //     ),
+            //     _toolsOption(ToolsItem(
+            //       label: UILocalizations.voiceInput,
+            //       style: toolsTextStyle,
+            //       image: _buildBtn(
+            //         icon: IconUtil.toolsVoiceInput(),
+            //         onTap: () {
+            //           setState(() {
+            //             _enabledVoiceInput = true;
+            //             _controller.forward();
+            //           });
+            //         },
+            //       ),
+            //     )),
+            //   ],
+            // ),
+            // Spacer(),
+
           ],
         ),
       );

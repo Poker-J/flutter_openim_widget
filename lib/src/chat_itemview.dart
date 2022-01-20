@@ -409,7 +409,12 @@ class _ChatItemViewState extends State<ChatItemView> {
           } else {
             try {
               var content = json.decode(widget.message.content!);
-              text = content['defaultTips'];
+              String tip = content['defaultTips'] ?? '';
+              if(tip.contains('invited into the group chat by')){
+                text = tip.replaceAll('   invited into the group chat by ', '').replaceAll('通知小助手','').trim() + '加入群聊';
+              }else{
+                text = tip;
+              }
             } catch (e) {
               text = json.encode(widget.message);
             }
