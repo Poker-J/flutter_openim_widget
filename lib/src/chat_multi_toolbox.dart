@@ -30,18 +30,19 @@ class ChatMultiSelToolbox extends StatelessWidget {
               ),
             ),
           ),
-          GestureDetector(
-            onTap: onMergeForward,
-            behavior: HitTestBehavior.translucent,
-            child: Container(
-              padding: EdgeInsets.all(4),
-              child: IconUtil.assetImage(
-                'ic_multi_tool_merge_forward',
-                width: 19.w,
-                height: 19.h,
-              ),
-            ),
-          )
+          //TODO 隐藏转发
+          // GestureDetector(
+          //   onTap: onMergeForward,
+          //   behavior: HitTestBehavior.translucent,
+          //   child: Container(
+          //     padding: EdgeInsets.all(4),
+          //     child: IconUtil.assetImage(
+          //       'ic_multi_tool_merge_forward',
+          //       width: 19.w,
+          //       height: 19.h,
+          //     ),
+          //   ),
+          // )
         ],
       ),
     );
