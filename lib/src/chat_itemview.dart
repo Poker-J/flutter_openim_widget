@@ -410,12 +410,25 @@ class _ChatItemViewState extends State<ChatItemView> {
             try {
               var content = json.decode(widget.message.content!);
               String tip = content['defaultTips'] ?? '';
-              text = tip.replaceAll(RegExp(r'[A-z]'), '');
-              // if(tip.contains('invited into the group chat by')){
-              //   text = tip.replaceAll('   invited into the group chat by ', '').replaceAll('通知小助手','').trim() + '加入群聊';
-              // }else{
-              //   text = tip;
-              // }
+              // text = tip.replaceAll(RegExp(r'[A-z]'), '');
+              // text = content['defaultTips'] ?? '';
+              if (tip.contains('invited into the group chat by')) {
+                text = tip
+                        .replaceAll('   invited into the group chat by ', '')
+                        .replaceAll('通知小助手', '')
+                        .trim() +
+                    '加入群聊';
+              } else if (tip.contains('You have successfully become friends')) {
+                text = tip
+                    .replaceAll(
+                        'You have successfully become friends, so start chatting',
+                        '你们已经成功地成为了朋友，开始聊天吧')
+                    .trim();
+              } else if (tip.contains('join the group')) {
+                text = tip.replaceAll('join the group', '加入群聊').trim();
+              } else {
+                text = tip;
+              }
             } catch (e) {
               text = json.encode(widget.message);
             }
@@ -569,14 +582,14 @@ class _ChatItemViewState extends State<ChatItemView> {
           textStyle: menuTextStyle,
           onTap: widget.onTapDelMenu,
         ),
-    //TODO 隐藏转发
-    //     MenuInfo(
-    //       icon: IconUtil.menuForward(),
-    //       text: UILocalizations.forward,
-    //       enabled: widget.message.contentType != MessageType.voice,
-    //       textStyle: menuTextStyle,
-    //       onTap: widget.onTapForwardMenu,
-    //     ),
+        //TODO 隐藏转发
+        //     MenuInfo(
+        //       icon: IconUtil.menuForward(),
+        //       text: UILocalizations.forward,
+        //       enabled: widget.message.contentType != MessageType.voice,
+        //       textStyle: menuTextStyle,
+        //       onTap: widget.onTapForwardMenu,
+        //     ),
         MenuInfo(
           icon: IconUtil.menuReply(),
           text: UILocalizations.reply,
@@ -601,7 +614,7 @@ class _ChatItemViewState extends State<ChatItemView> {
           textStyle: menuTextStyle,
           onTap: widget.onTapMultiMenu,
         ),
-    //TODO 隐藏翻译
+        //TODO 隐藏翻译
         // MenuInfo(
         //   icon: IconUtil.menuTranslation(),
         //   text: UILocalizations.translation,
