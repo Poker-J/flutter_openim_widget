@@ -414,10 +414,9 @@ class _ChatItemViewState extends State<ChatItemView> {
               // text = content['defaultTips'] ?? '';
               if (tip.contains('invited into the group chat by')) {
                 text = tip
-                        .replaceAll('   invited into the group chat by ', '')
-                        .replaceAll('通知小助手', '')
-                        .trim() +
-                    '加入群聊';
+                    .replaceAll('   invited into the group chat by ','被' )
+                    .trim() +
+                    '邀请入群!';
               } else if (tip.contains('You have successfully become friends')) {
                 text = tip
                     .replaceAll(
@@ -426,6 +425,10 @@ class _ChatItemViewState extends State<ChatItemView> {
                     .trim();
               } else if (tip.contains('join the group')) {
                 text = tip.replaceAll('join the group', '加入群聊').trim();
+              } else if (tip.contains('You have joined the group chat:')) {
+                text = tip.replaceAll('You have joined the group chat:', '您已加入群聊!').trim();
+              } else if (tip.contains('kicked out of group chat by administrator')) {
+                text = tip.replaceAll('  kicked out of group chat by administrator', '被管理员移除群聊!').trim();
               } else {
                 text = tip;
               }
