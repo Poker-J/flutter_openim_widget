@@ -146,19 +146,19 @@ class _ChatToolsViewState extends State<ChatToolsView>
             SizedBox(
               height: 14.h,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _toolsOption(ToolsItem(
-                  label: UILocalizations.videoCall,
-                  style: toolsTextStyle,
-                  image: _buildBtn(
-                    icon: IconUtil.toolsVideoCall(),
-                    onTap: widget.onTapVideoCall,
-                  ),
-                )),
-              ],
-            )
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     _toolsOption(ToolsItem(
+            //       label: UILocalizations.videoCall,
+            //       style: toolsTextStyle,
+            //       image: _buildBtn(
+            //         icon: IconUtil.toolsVideoCall(),
+            //         onTap: widget.onTapVideoCall,
+            //       ),
+            //     )),
+            //   ],
+            // )
             // Column(
             //   children: [
             //
