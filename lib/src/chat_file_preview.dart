@@ -43,21 +43,23 @@ class _ChatFilePreviewState extends State<ChatFilePreview> {
     return Scaffold(
       appBar: TitleBar.back(context),
       backgroundColor: Color(0xFFF6F6F6),
-      body: Stack(
-        children: [
-          Positioned(
-            top: 136.h,
-            width: 375.w,
-            child: IconUtil.assetImage(
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 30.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 136.h,
+            ),
+            IconUtil.assetImage(
               'ic_file_grey',
               width: 56.w,
               height: 56.h,
             ),
-          ),
-          Positioned(
-            top: 224.h,
-            width: 375.w,
-            child: Text(
+            SizedBox(
+              height: 20.h,
+            ),
+            Text(
               widget.name,
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -65,80 +67,81 @@ class _ChatFilePreviewState extends State<ChatFilePreview> {
                 color: Color(0xFF333333),
               ),
             ),
-          ),
-          Positioned(
-            top: 258.h,
-            width: 375.w,
-            child: Text(
+            SizedBox(
+              height: 20.h,
+            ),
+            Text(
               sprintf(UILocalizations.fileSize,
                   [CommonUtil.formatBytes(widget.size)]),
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 16.sp,
+                fontSize: 14.sp,
                 color: Color(0xFF333333),
               ),
             ),
-          ),
-          widget.available
-              ? Positioned(
-                  top: 496.h,
-                  width: 375.w,
-                  child: Container(
-                    alignment: Alignment.center,
-                    child: StreamBuilder(
-                      stream: widget.subject?.stream,
-                      builder: (_, AsyncSnapshot<MsgStreamEv<double>> hot) {
-                        var event = hot.data;
-                        return GestureDetector(
-                          onTap: _start
-                              ? null
-                              : () {
-                                  setState(() {
-                                    _start = !_start;
-                                    widget.onDownload?.call(widget.url!);
-                                  });
-                                },
-                          behavior: HitTestBehavior.translucent,
-                          child: Container(
-                            width: 50.w,
-                            height: 50.h,
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                CircularProgressIndicator(
-                                  backgroundColor: Color(0xFFCCCCCC),
-                                  color: Color(0xFF1D6BED),
-                                  strokeWidth: 3,
-                                  value: event?.value ?? 0,
-                                ),
-                                IconUtil.assetImage(
-                                  _start
-                                      ? 'ic_download_continue'
-                                      : 'ic_download_stop',
-                                  width: 23.w,
-                                  height: 23.h,
-                                )
-                              ],
+            Expanded(child: SizedBox()),
+            widget.available
+                ? Positioned(
+                    top: 496.h,
+                    width: 375.w,
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: StreamBuilder(
+                        stream: widget.subject?.stream,
+                        builder: (_, AsyncSnapshot<MsgStreamEv<double>> hot) {
+                          var event = hot.data;
+                          return GestureDetector(
+                            onTap: _start
+                                ? null
+                                : () {
+                                    setState(() {
+                                      _start = !_start;
+                                      widget.onDownload?.call(widget.url!);
+                                    });
+                                  },
+                            behavior: HitTestBehavior.translucent,
+                            child: Container(
+                              width: 50.w,
+                              height: 50.h,
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  CircularProgressIndicator(
+                                    backgroundColor: Color(0xFFCCCCCC),
+                                    color: Color(0xFF1D6BED),
+                                    strokeWidth: 3,
+                                    value: event?.value ?? 0,
+                                  ),
+                                  IconUtil.assetImage(
+                                    _start
+                                        ? 'ic_download_continue'
+                                        : 'ic_download_stop',
+                                    width: 18.w,
+                                    height: 18.h,
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
+                    ),
+                  )
+                : Positioned(
+                    top: 510.h,
+                    width: 375.w,
+                    child: Text(
+                      UILocalizations.fileUnavailable,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        color: Color(0xFFDD000F),
+                      ),
                     ),
                   ),
-                )
-              : Positioned(
-                  top: 510.h,
-                  width: 375.w,
-                  child: Text(
-                    UILocalizations.fileUnavailable,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      color: Color(0xFFDD000F),
-                    ),
-                  ),
-                ),
-        ],
+            Expanded(child: SizedBox()),
+          ],
+        ),
       ),
     );
   }
