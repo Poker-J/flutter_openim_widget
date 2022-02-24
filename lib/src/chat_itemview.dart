@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_openim_sdk/flutter_openim_sdk.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:focus_detector/focus_detector.dart';
@@ -14,7 +13,7 @@ class MsgStreamEv<T> {
   MsgStreamEv({required this.msgId, required this.value});
 }
 
-typedef CustomItemBuilder = Widget Function(
+typedef CustomItemBuilder = Widget? Function(
   BuildContext context,
   int index,
   Message message,
@@ -153,6 +152,27 @@ class ChatItemView extends StatefulWidget {
   ///
   final Function()? onTapTranslationMenu;
 
+  /// Click the copy button event on the menu
+  final bool? enabledCopyMenu;
+
+  /// Click the delete button event on the menu
+  final bool? enabledDelMenu;
+
+  /// Click the forward button event on the menu
+  final bool? enabledForwardMenu;
+
+  /// Click the reply button event on the menu
+  final bool? enabledReplyMenu;
+
+  /// Click the revoke button event on the menu
+  final bool? enabledRevokeMenu;
+
+  ///
+  final bool? enabledMultiMenu;
+
+  ///
+  final bool? enabledTranslationMenu;
+
   ///
   final bool multiSelMode;
 
@@ -169,6 +189,8 @@ class ChatItemView extends StatefulWidget {
 
   final bool delaySendingStatus;
 
+  final bool enabledReadStatus;
+
   const ChatItemView({
     Key? key,
     required this.index,
@@ -180,7 +202,7 @@ class ChatItemView extends StatefulWidget {
     required this.msgSendStatusSubject,
     required this.msgSendProgressSubject,
     // required this.downloadProgressSubject,
-    this.isBubbleMsg = false,
+    this.isBubbleMsg = true,
     // this.width = 100,
     this.leftBubbleColor = const Color(0xFFF0F0F0),
     this.rightBubbleColor = const Color(0xFFDCEBFE),
@@ -210,12 +232,20 @@ class ChatItemView extends StatefulWidget {
     this.onTapRevokeMenu,
     this.onTapMultiMenu,
     this.onTapTranslationMenu,
+    this.enabledCopyMenu,
+    this.enabledMultiMenu,
+    this.enabledDelMenu,
+    this.enabledForwardMenu,
+    this.enabledReplyMenu,
+    this.enabledRevokeMenu,
+    this.enabledTranslationMenu,
     this.multiSelMode = false,
     this.onMultiSelChanged,
     this.multiList = const [],
     this.onTapQuoteMsg,
     this.patterns = const [],
     this.delaySendingStatus = false,
+    this.enabledReadStatus = true,
   }) : super(key: key);
 
   @override
@@ -245,222 +275,7 @@ class _ChatItemViewState extends State<ChatItemView> {
   @override
   Widget build(BuildContext context) {
     Widget? child;
-    switch (widget.message.contentType) {
-      case MessageType.text:
-        {
-          child = _buildCommonItemView(
-            child: ChatAtText(
-              text: widget.message.content!,
-              allAtMap: {},
-              textStyle: widget.textStyle,
-              patterns: widget.patterns,
-            ),
-          );
-        }
-        break;
-      case MessageType.at_text:
-        {
-          Map map = json.decode(widget.message.content!);
-          var text = map['text'];
-          child = _buildCommonItemView(
-            child: ChatAtText(
-              text: text,
-              allAtMap: widget.allAtMap,
-              textStyle: widget.textStyle,
-              patterns: widget.patterns,
-            ),
-          );
-        }
-        break;
-      case MessageType.picture:
-        {
-          child = _buildCommonItemView(
-            isBubbleBg: false,
-            child: ChatPictureView(
-              msgId: widget.message.clientMsgID!,
-              isReceived: _isFromMsg,
-              snapshotPath: null,
-              snapshotUrl: widget.message.pictureElem?.snapshotPicture?.url,
-              sourcePath: widget.message.pictureElem?.sourcePath,
-              sourceUrl: widget.message.pictureElem?.sourcePicture?.url,
-              width:
-                  widget.message.pictureElem?.sourcePicture?.width?.toDouble(),
-              height:
-                  widget.message.pictureElem?.sourcePicture?.height?.toDouble(),
-              widgetWidth: 100.w,
-              msgSenProgressStream: widget.msgSendProgressSubject.stream,
-              initMsgSendProgress: 100,
-              index: widget.index,
-              clickStream: widget.clickSubject.stream,
-            ),
-          );
-        }
-        break;
-      case MessageType.voice:
-        {
-          child = _buildCommonItemView(
-            child: ChatVoiceView(
-              index: widget.index,
-              clickStream: widget.clickSubject.stream,
-              isReceived: _isFromMsg,
-              soundPath: widget.message.soundElem?.soundPath,
-              soundUrl: widget.message.soundElem?.sourceUrl,
-              duration: widget.message.soundElem?.duration,
-            ),
-          );
-        }
-        break;
-      case MessageType.video:
-        {
-          child = _buildCommonItemView(
-            isBubbleBg: false,
-            child: ChatVideoView(
-              msgId: widget.message.clientMsgID!,
-              isReceived: _isFromMsg,
-              snapshotPath: widget.message.videoElem?.snapshotPath,
-              snapshotUrl: widget.message.videoElem?.snapshotUrl,
-              videoPath: widget.message.videoElem?.videoPath,
-              videoUrl: widget.message.videoElem?.videoUrl,
-              width: widget.message.videoElem?.snapshotWidth?.toDouble(),
-              height: widget.message.videoElem?.snapshotHeight?.toDouble(),
-              widgetWidth: 100.w,
-              msgSenProgressStream: widget.msgSendProgressSubject.stream,
-              initMsgSendProgress: 100,
-              index: widget.index,
-              clickStream: widget.clickSubject.stream,
-            ),
-          );
-        }
-        break;
-      case MessageType.file:
-        {
-          child = _buildCommonItemView(
-            child: ChatFileView(
-              msgId: widget.message.clientMsgID!,
-              fileName: widget.message.fileElem!.fileName ?? '',
-              filePath: widget.message.fileElem!.filePath!,
-              url: widget.message.fileElem!.sourceUrl!,
-              bytes: widget.message.fileElem?.fileSize ?? 0,
-              width: 158.w,
-              initProgress: 100,
-              uploadStream: widget.msgSendProgressSubject.stream,
-              index: widget.index,
-              clickStream: widget.clickSubject.stream,
-            ),
-          );
-        }
-        break;
-      case MessageType.location:
-        {
-          child = _buildCommonItemView(
-            isBubbleBg: false,
-            child: ChatLocationView(
-              description: widget.message.locationElem!.description!,
-              latitude: widget.message.locationElem!.latitude!,
-              longitude: widget.message.locationElem!.longitude!,
-            ),
-          );
-        }
-        break;
-      case MessageType.quote:
-        {
-          child = _buildCommonItemView(
-            child: ChatAtText(
-              text: widget.message.quoteElem?.text ?? '',
-              allAtMap: widget.allAtMap,
-              textStyle: widget.textStyle,
-              patterns: widget.patterns,
-            ),
-          );
-        }
-        break;
-
-      case MessageType.merger:
-        {
-          child = _buildCommonItemView(
-            child: ChatMergeMsgView(
-              title: widget.message.mergeElem?.title ?? '',
-              summaryList: widget.message.mergeElem?.abstractList ?? [],
-            ),
-          );
-        }
-        break;
-      case MessageType.card:
-        {
-          var data = json.decode(widget.message.content!);
-          child = _buildCommonItemView(
-            isBubbleBg: false,
-            child: ChatCarteView(
-              name: data['name'],
-              url: data['icon'],
-            ),
-          );
-        }
-        break;
-      default:
-        {
-          _isHintMsg = true;
-          var text;
-          if (MessageType.revoke == widget.message.contentType) {
-            var who = _isFromMsg
-                ? widget.message.senderNickName
-                : UILocalizations.you;
-            text = '$who ${UILocalizations.revokeAMsg}';
-          } else {
-            try {
-              var content = json.decode(widget.message.content!);
-              String tip = content['defaultTips'] ?? '';
-              // text = tip.replaceAll(RegExp(r'[A-z]'), '');
-              // text = content['defaultTips'] ?? '';
-              if (tip.contains('invited into the group chat by')) {
-                text = tip
-                        .replaceAll('   invited into the group chat by ', '被')
-                        .trim() +
-                    '邀请入群!';
-              } else if (tip.contains('You have successfully become friends')) {
-                text = tip
-                    .replaceAll(
-                        'You have successfully become friends, so start chatting',
-                        '你们已经成功地成为了朋友，开始聊天吧')
-                    .trim();
-              } else if (tip.contains('join the group')) {
-                text = tip.replaceAll('join the group', '加入群聊').trim();
-              } else if (tip.contains('You have joined the group chat:')) {
-                text = tip
-                    .replaceAll('You have joined the group chat:', '您已加入群聊!')
-                    .trim();
-              } else if (tip
-                  .contains('kicked out of group chat by administrator')) {
-                text = tip
-                    .replaceAll('  kicked out of group chat by administrator',
-                        '被管理员移除群聊!')
-                    .trim();
-              } else if (tip.contains('have quit group chat')) {
-                text = tip
-                    .replaceAll('have quit group chat', '退出群聊!')
-                    .replaceAll('User:', '')
-                    .trim();
-              } else {
-                text = tip;
-              }
-            } catch (e) {
-              text = json.encode(widget.message);
-            }
-          }
-          child = _buildCommonItemView(
-            isBubbleBg: false,
-            isHintMsg: true,
-            child: ChatAtText(
-              text: text,
-              allAtMap: {},
-              textAlign: TextAlign.center,
-              // enabled: false,
-              textStyle: widget.hintTextStyle ?? _hintTextStyle,
-            ),
-          );
-        }
-        break;
-    }
+    // custom view
     var view = _customItemView();
     if (null != view) {
       if (widget.isBubbleMsg) {
@@ -468,7 +283,10 @@ class _ChatItemViewState extends State<ChatItemView> {
       } else {
         child = view;
       }
+    } else {
+      child = _buildItemView();
     }
+
     return FocusDetector(
       child: Container(
         padding: widget.padding ??
@@ -504,6 +322,200 @@ class _ChatItemViewState extends State<ChatItemView> {
     );
   }
 
+  Widget? _buildItemView() {
+    Widget? child;
+    switch (widget.message.contentType) {
+      case MessageType.text:
+        {
+          child = _buildCommonItemView(
+            child: ChatAtText(
+              text: widget.message.content!,
+              allAtMap: {},
+              textStyle: widget.textStyle,
+              patterns: widget.patterns,
+            ),
+          );
+        }
+        break;
+      case MessageType.at_text:
+        {
+          Map map = json.decode(widget.message.content!);
+          var text = map['text'];
+          child = _buildCommonItemView(
+            child: ChatAtText(
+              text: text,
+              allAtMap: widget.allAtMap,
+              textStyle: widget.textStyle,
+              patterns: widget.patterns,
+            ),
+          );
+        }
+        break;
+      case MessageType.picture:
+        {
+          var picture = widget.message.pictureElem;
+          child = _buildCommonItemView(
+            isBubbleBg: false,
+            child: ChatPictureView(
+              msgId: widget.message.clientMsgID!,
+              isReceived: _isFromMsg,
+              snapshotPath: null,
+              snapshotUrl: picture?.snapshotPicture?.url,
+              sourcePath: picture?.sourcePath,
+              sourceUrl: picture?.sourcePicture?.url,
+              width: picture?.sourcePicture?.width?.toDouble(),
+              height: picture?.sourcePicture?.height?.toDouble(),
+              widgetWidth: 100.w,
+              msgSenProgressStream: widget.msgSendProgressSubject.stream,
+              initMsgSendProgress: 100,
+              index: widget.index,
+              clickStream: widget.clickSubject.stream,
+            ),
+          );
+        }
+        break;
+      case MessageType.voice:
+        {
+          var sound = widget.message.soundElem;
+          child = _buildCommonItemView(
+            child: ChatVoiceView(
+              index: widget.index,
+              clickStream: widget.clickSubject.stream,
+              isReceived: _isFromMsg,
+              soundPath: sound?.soundPath,
+              soundUrl: sound?.sourceUrl,
+              duration: sound?.duration,
+            ),
+          );
+        }
+        break;
+      case MessageType.video:
+        {
+          var video = widget.message.videoElem;
+          child = _buildCommonItemView(
+            isBubbleBg: false,
+            child: ChatVideoView(
+              msgId: widget.message.clientMsgID!,
+              isReceived: _isFromMsg,
+              snapshotPath: video?.snapshotPath,
+              snapshotUrl: video?.snapshotUrl,
+              videoPath: video?.videoPath,
+              videoUrl: video?.videoUrl,
+              width: video?.snapshotWidth?.toDouble(),
+              height: video?.snapshotHeight?.toDouble(),
+              widgetWidth: 100.w,
+              msgSenProgressStream: widget.msgSendProgressSubject.stream,
+              initMsgSendProgress: 100,
+              index: widget.index,
+              clickStream: widget.clickSubject.stream,
+            ),
+          );
+        }
+        break;
+      case MessageType.file:
+        {
+          var file = widget.message.fileElem;
+          child = _buildCommonItemView(
+            child: ChatFileView(
+              msgId: widget.message.clientMsgID!,
+              fileName: file!.fileName!,
+              // filePath: file.filePath!,
+              // url: file.sourceUrl!,
+              bytes: file.fileSize ?? 0,
+              width: 158.w,
+              initProgress: 100,
+              uploadStream: widget.msgSendProgressSubject.stream,
+              index: widget.index,
+              clickStream: widget.clickSubject.stream,
+            ),
+          );
+        }
+        break;
+      case MessageType.location:
+        {
+          var location = widget.message.locationElem;
+          child = _buildCommonItemView(
+            isBubbleBg: false,
+            child: ChatLocationView(
+              description: location!.description!,
+              latitude: location.latitude!,
+              longitude: location.longitude!,
+            ),
+          );
+        }
+        break;
+      case MessageType.quote:
+        {
+          child = _buildCommonItemView(
+            child: ChatAtText(
+              text: widget.message.quoteElem?.text ?? '',
+              allAtMap: widget.allAtMap,
+              textStyle: widget.textStyle,
+              patterns: widget.patterns,
+            ),
+          );
+        }
+        break;
+      case MessageType.merger:
+        {
+          child = _buildCommonItemView(
+            child: ChatMergeMsgView(
+              title: widget.message.mergeElem?.title ?? '',
+              summaryList: widget.message.mergeElem?.abstractList ?? [],
+            ),
+          );
+        }
+        break;
+      case MessageType.card:
+        {
+          var data = json.decode(widget.message.content!);
+          child = _buildCommonItemView(
+            isBubbleBg: false,
+            child: ChatCarteView(
+              name: data['nickname'],
+              url: data['faceURL'],
+            ),
+          );
+        }
+        break;
+      default:
+        {
+          try {
+            _isHintMsg = true;
+            var text;
+            if (MessageType.revoke == widget.message.contentType) {
+              var who = _isFromMsg
+                  ? widget.message.senderNickname
+                  : UILocalizations.you;
+              text = '$who ${UILocalizations.revokeAMsg}';
+            } else {
+              try {
+                var content = json.decode(widget.message.content!);
+                text = content['defaultTips'];
+              } catch (e) {
+                text = json.encode(widget.message);
+              }
+            }
+            child = _buildCommonItemView(
+              isBubbleBg: null == text ? true : false,
+              isHintMsg: null == text ? false : true,
+              child: ChatAtText(
+                text: text ?? UILocalizations.unsupportedMessage,
+                allAtMap: {},
+                textAlign: TextAlign.center,
+                // enabled: false,
+                textStyle: null != text
+                    ? widget.hintTextStyle ?? _hintTextStyle
+                    : widget.textStyle,
+              ),
+            );
+          } catch (e) {}
+        }
+        break;
+    }
+    return child;
+  }
+
   Widget _buildCommonItemView({
     required Widget child,
     bool isBubbleBg = true,
@@ -520,9 +532,9 @@ class _ChatItemViewState extends State<ChatItemView> {
         isReceivedMsg: _isFromMsg,
         isSingleChat: widget.isSingleChat,
         avatarSize: widget.avatarSize ?? 42.h,
-        rightAvatar: OpenIM.iMManager.uInfo.icon!,
+        rightAvatar: OpenIM.iMManager.uInfo.faceURL!,
         leftAvatar: widget.message.senderFaceUrl!,
-        leftName: widget.message.senderNickName!,
+        leftName: widget.message.senderNickname!,
         isUnread: !widget.message.isRead!,
         leftBubbleColor: widget.leftBubbleColor,
         rightBubbleColor: widget.rightBubbleColor,
@@ -545,6 +557,7 @@ class _ChatItemViewState extends State<ChatItemView> {
         checked: _checked,
         onRadioChanged: widget.onMultiSelChanged,
         delaySendingStatus: widget.delaySendingStatus,
+        enabledReadStatus: widget.enabledReadStatus,
       );
 
   Widget _menuBuilder() => ChatLongPressMenu(
@@ -560,13 +573,11 @@ class _ChatItemViewState extends State<ChatItemView> {
             ),
       );
 
-  Widget? _customItemView() => null == widget.customItemBuilder
-      ? null
-      : widget.customItemBuilder!(
-          context,
-          widget.index,
-          widget.message,
-        );
+  Widget? _customItemView() => widget.customItemBuilder?.call(
+        context,
+        widget.index,
+        widget.message,
+      );
 
   Widget _buildTimeView() => Container(
         padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 2.h),
@@ -583,61 +594,55 @@ class _ChatItemViewState extends State<ChatItemView> {
 
   List<MenuInfo> _menusItem() => [
         MenuInfo(
-          icon: IconUtil.menuCopy(),
+          icon: ImageUtil.menuCopy(),
           text: UILocalizations.copy,
-          enabled: widget.message.contentType == MessageType.text,
+          enabled: _showCopyMenu,
           textStyle: menuTextStyle,
           onTap: widget.onTapCopyMenu,
         ),
         MenuInfo(
-          icon: IconUtil.menuDel(),
+          icon: ImageUtil.menuDel(),
           text: UILocalizations.delete,
-          enabled: true,
+          enabled: _showDelMenu,
           textStyle: menuTextStyle,
           onTap: widget.onTapDelMenu,
         ),
-        //TODO 隐藏转发
-        //     MenuInfo(
-        //       icon: IconUtil.menuForward(),
-        //       text: UILocalizations.forward,
-        //       enabled: widget.message.contentType != MessageType.voice,
-        //       textStyle: menuTextStyle,
-        //       onTap: widget.onTapForwardMenu,
-        //     ),
         MenuInfo(
-          icon: IconUtil.menuReply(),
+          icon: ImageUtil.menuForward(),
+          text: UILocalizations.forward,
+          enabled: _showForwardMenu,
+          textStyle: menuTextStyle,
+          onTap: widget.onTapForwardMenu,
+        ),
+        MenuInfo(
+          icon: ImageUtil.menuReply(),
           text: UILocalizations.reply,
-          enabled: widget.message.contentType == MessageType.text ||
-              widget.message.contentType == MessageType.video ||
-              widget.message.contentType == MessageType.picture ||
-              widget.message.contentType == MessageType.location ||
-              widget.message.contentType == MessageType.quote,
+          enabled: _showReplyMenu,
           textStyle: menuTextStyle,
           onTap: widget.onTapReplyMenu,
         ),
         MenuInfo(
-            icon: IconUtil.menuRevoke(),
+            icon: ImageUtil.menuRevoke(),
             text: UILocalizations.revoke,
-            enabled: widget.message.sendID == OpenIM.iMManager.uid,
+            enabled: _showRevokeMenu,
             textStyle: menuTextStyle,
             onTap: widget.onTapRevokeMenu),
         MenuInfo(
-          icon: IconUtil.menuMultiChoice(),
+          icon: ImageUtil.menuMultiChoice(),
           text: UILocalizations.multiChoice,
-          enabled: true,
+          enabled: _showMultiChoiceMenu,
           textStyle: menuTextStyle,
           onTap: widget.onTapMultiMenu,
         ),
-        //TODO 隐藏翻译
+        MenuInfo(
+          icon: ImageUtil.menuTranslation(),
+          text: UILocalizations.translation,
+          enabled: _showTranslationMenu,
+          textStyle: menuTextStyle,
+          onTap: widget.onTapTranslationMenu,
+        ),
         // MenuInfo(
-        //   icon: IconUtil.menuTranslation(),
-        //   text: UILocalizations.translation,
-        //   enabled: widget.message.contentType == MessageType.text,
-        //   textStyle: menuTextStyle,
-        //   onTap: widget.onTapTranslationMenu,
-        // ),
-        // MenuInfo(
-        //   icon: IconUtil.menuDownload(),
+        //   icon: ImageUtil.menuDownload(),
         //   text: widget.localizations.download,
         //   enabled: true,
         //   textStyle: menuTextStyle,
@@ -649,4 +654,30 @@ class _ChatItemViewState extends State<ChatItemView> {
     fontSize: 10.sp,
     color: Color(0xFFFFFFFF),
   );
+
+  bool get _showCopyMenu =>
+      widget.enabledCopyMenu ?? widget.message.contentType == MessageType.text;
+
+  bool get _showDelMenu => widget.enabledDelMenu ?? true;
+
+  bool get _showForwardMenu =>
+      widget.enabledForwardMenu ??
+      widget.message.contentType != MessageType.voice;
+
+  bool get _showReplyMenu =>
+      widget.enabledReplyMenu ??
+      widget.message.contentType == MessageType.text ||
+          widget.message.contentType == MessageType.video ||
+          widget.message.contentType == MessageType.picture ||
+          widget.message.contentType == MessageType.location ||
+          widget.message.contentType == MessageType.quote;
+
+  bool get _showRevokeMenu =>
+      widget.enabledRevokeMenu ?? widget.message.sendID == OpenIM.iMManager.uid;
+
+  bool get _showMultiChoiceMenu => widget.enabledMultiMenu ?? true;
+
+  bool get _showTranslationMenu =>
+      widget.enabledTranslationMenu ??
+      widget.message.contentType == MessageType.text;
 }

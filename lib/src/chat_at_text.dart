@@ -119,7 +119,7 @@ class ChatAtText extends StatelessWidget {
             })];
         if (mapping != null) {
           if (mapping.type == PatternType.AT) {
-            String uid = matchText.replaceAll("@", "").trim();
+            String uid = matchText.replaceFirst("@", "").trim();
             value = uid;
             if (allAtMap.containsKey(uid)) {
               matchText = '@${allAtMap[uid]!} ';
@@ -127,7 +127,7 @@ class ChatAtText extends StatelessWidget {
           }
           if (mapping.type == PatternType.EMOJI) {
             inlineSpan = ImageSpan(
-              IconUtil.emojiImage(matchText),
+              ImageUtil.emojiImage(matchText),
               imageWidth: 20.h,
               imageHeight: 20.h,
             );
@@ -196,8 +196,8 @@ class MatchPattern {
 
 enum PatternType { AT, EMAIL, MOBILE, TEL, URL, EMOJI, CUSTOM }
 
-/// @uid
-const regexAt = r"(@\S+\s)";
+/// 空格@uid空格
+const regexAt = r"(\s@\S+\s)";
 
 /// Email Regex - A predefined type for handling email matching
 const regexEmail = r"\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b";

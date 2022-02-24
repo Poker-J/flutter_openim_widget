@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
-import 'package:flutter_openim_widget/src/chat_bubble.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChatSingleLayout extends StatelessWidget {
@@ -35,6 +34,7 @@ class ChatSingleLayout extends StatelessWidget {
   final bool showRadio;
   final Function(bool checked)? onRadioChanged;
   final bool delaySendingStatus;
+  final bool enabledReadStatus;
 
   const ChatSingleLayout({
     Key? key,
@@ -68,6 +68,7 @@ class ChatSingleLayout extends StatelessWidget {
     this.showRadio = false,
     this.onRadioChanged,
     this.delaySendingStatus = false,
+    this.enabledReadStatus = true,
   }) : super(key: key);
 
   @override
@@ -186,7 +187,7 @@ class ChatSingleLayout extends StatelessWidget {
             stream: sendStatusStream,
             isSendFailed: isSendFailed,
           ),
-          if (isSingleChat && !isSendFailed && !isSending)
+          if (isSingleChat && !isSendFailed && !isSending && enabledReadStatus)
             _buildReadStatusView(),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,

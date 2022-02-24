@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_openim_widget/flutter_openim_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:rxdart/rxdart.dart';
-
-import 'at_special_text_span_builder.dart';
 
 class ChatInputBoxView extends StatefulWidget {
   ChatInputBoxView({
@@ -23,6 +22,7 @@ class ChatInputBoxView extends StatefulWidget {
     this.quoteContent,
     this.onClearQuote,
     this.multiMode = false,
+    this.inputFormatters,
   }) : super(key: key);
   final AtTextCallback? atCallback;
   final Map<String, String> allAtMap;
@@ -39,6 +39,7 @@ class ChatInputBoxView extends StatefulWidget {
   final String? quoteContent;
   final Function()? onClearQuote;
   final bool multiMode;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   _ChatInputBoxViewState createState() => _ChatInputBoxViewState();
@@ -235,7 +236,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
                   ),
                 ),
               ),
-              IconUtil.assetImage(
+              ImageUtil.assetImage(
                 'ic_del_quote',
                 width: 14.w,
                 height: 15.h,
@@ -263,6 +264,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
           allAtMap: widget.allAtMap,
           focusNode: widget.focusNode,
           controller: widget.controller,
+          inputFormatters: widget.inputFormatters,
           // onSubmitted: (value) {
           //   focus();
           //   if (null != widget.onSubmitted) widget.onSubmitted!(value);
@@ -282,22 +284,20 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
   );
 
   Widget _speakBtn() => _buildBtn(
-        icon: IconUtil.speak(),
+        icon: ImageUtil.speak(),
         onTap: () {
-          PermissionUtil.microphone(() {
-            setState(() {
-              _leftKeyboardButton = true;
-              _rightKeyboardButton = false;
-              _toolsVisible = false;
-              _emojiVisible = false;
-              unfocus();
-            });
+          setState(() {
+            _leftKeyboardButton = true;
+            _rightKeyboardButton = false;
+            _toolsVisible = false;
+            _emojiVisible = false;
+            unfocus();
           });
         },
       );
 
   Widget _keyboardLeftBtn() => _buildBtn(
-        icon: IconUtil.keyboard(),
+        icon: ImageUtil.keyboard(),
         onTap: () {
           setState(() {
             _leftKeyboardButton = false;
@@ -310,7 +310,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
 
   Widget _keyboardRightBtn() => _buildBtn(
         padding: EdgeInsets.only(left: 10.w, right: 5.w),
-        icon: IconUtil.keyboard(),
+        icon: ImageUtil.keyboard(),
         onTap: () {
           setState(() {
             _rightKeyboardButton = false;
@@ -322,7 +322,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
       );
 
   Widget _toolsBtn() => _buildBtn(
-        icon: IconUtil.tools(),
+        icon: ImageUtil.tools(),
         padding: EdgeInsets.only(left: 5.w, right: 10.w),
         onTap: () {
           setState(() {
@@ -341,7 +341,7 @@ class _ChatInputBoxViewState extends State<ChatInputBoxView>
 
   Widget _emojiBtn() => _buildBtn(
         padding: EdgeInsets.only(left: 10.w, right: 5.w),
-        icon: IconUtil.emoji(),
+        icon: ImageUtil.emoji(),
         onTap: () {
           setState(() {
             _rightKeyboardButton = true;
