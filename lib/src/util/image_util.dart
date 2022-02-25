@@ -5,18 +5,17 @@ import 'package:flutter_openim_widget/src/chat_emoji_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class IconUtil {
-  IconUtil._();
+class ImageUtil {
+  ImageUtil._();
 
   static String imageResStr(var name) => "assets/images/$name.webp";
+
   static String imageResStrPng(var name) => "assets/images/$name.png";
 
   static AssetImage emojiImage(String key) => AssetImage(
-        IconUtil.imageResStrPng(emojiFaces[key]),
+        ImageUtil.imageResStrPng(emojiFaces[key]),
         package: 'flutter_openim_widget',
       );
-
-
 
   static Widget svg(
     String name, {
@@ -54,12 +53,12 @@ class IconUtil {
   }
 
   static Widget assetImagePng(
-      String res, {
-        double? width,
-        double? height,
-        BoxFit? fit,
-        Color? color,
-      }) {
+    String res, {
+    double? width,
+    double? height,
+    BoxFit? fit,
+    Color? color,
+  }) {
     return Image.asset(
       imageResStrPng(res),
       width: width,
@@ -258,18 +257,58 @@ class IconUtil {
     required String url,
     double? width,
     double? height,
+    int? cacheWidth,
+    int? cacheHeight,
     BoxFit? fit,
     bool loadProgress = true,
+    bool clearMemoryCacheWhenDispose = true,
+    bool lowMemory = true,
   }) =>
-      networkImage(
-        url: url,
+      ExtendedImage.network(
+        url,
         width: width,
         height: height,
         fit: fit,
-        cacheWidth: width?.toInt(),
-        cacheHeight: height?.toInt(),
-        loadProgress: loadProgress,
-        clearMemoryCacheWhenDispose: true,
+        cacheWidth: lowMemory ? cacheWidth ?? (1.sw * .75).toInt() : null,
+        cacheHeight: lowMemory ? cacheHeight : null,
+        cache: true,
+        clearMemoryCacheWhenDispose: clearMemoryCacheWhenDispose,
+        loadStateChanged: (ExtendedImageState state) {
+          switch (state.extendedImageLoadState) {
+            case LoadState.loading:
+              {
+                final ImageChunkEvent? loadingProgress = state.loadingProgress;
+                final double? progress =
+                    loadingProgress?.expectedTotalBytes != null
+                        ? loadingProgress!.cumulativeBytesLoaded /
+                            loadingProgress.expectedTotalBytes!
+                        : null;
+                // CupertinoActivityIndicator()
+                return Container(
+                  width: 15.0,
+                  height: 15.0,
+                  child: loadProgress
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            strokeWidth: 1.5,
+                            value: progress ?? 0,
+                          ),
+                        )
+                      : null,
+                );
+              }
+            case LoadState.completed:
+              return null;
+            case LoadState.failed:
+              //remove memory cached
+              state.imageProvider.evict();
+              return error(width: width, height: height);
+          }
+        },
+        // border: Border.all(color: Colors.red, width: 1.0),
+        // shape: boxShape,
+        // borderRadius: BorderRadius.all(Radius.circular(30.0)),
+        // cancelToken: CancellationToken(),
       );
 
   static Widget networkImage({

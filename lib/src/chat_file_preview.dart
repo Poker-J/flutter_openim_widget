@@ -51,7 +51,7 @@ class _ChatFilePreviewState extends State<ChatFilePreview> {
             SizedBox(
               height: 136.h,
             ),
-            IconUtil.assetImage(
+            ImageUtil.assetImage(
               'ic_file_grey',
               width: 56.w,
               height: 56.h,
@@ -109,7 +109,7 @@ class _ChatFilePreviewState extends State<ChatFilePreview> {
                                   strokeWidth: 3,
                                   value: event?.value ?? 0,
                                 ),
-                                IconUtil.assetImage(
+                                ImageUtil.assetImage(
                                   _start
                                       ? 'ic_download_continue'
                                       : 'ic_download_stop',

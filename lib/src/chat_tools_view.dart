@@ -113,7 +113,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
                   label: UILocalizations.album,
                   style: toolsTextStyle,
                   image: _buildBtn(
-                    icon: IconUtil.toolsAlbum(),
+                    icon: ImageUtil.toolsAlbum(),
                     onTap: widget.onTapAlbum,
                   ),
                 )),
@@ -121,7 +121,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
                   label: UILocalizations.camera,
                   style: toolsTextStyle,
                   image: _buildBtn(
-                    icon: IconUtil.toolsCamera(),
+                    icon: ImageUtil.toolsCamera(),
                     onTap: widget.onTapCamera,
                   ),
                 )),
@@ -129,7 +129,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
                   label: UILocalizations.file,
                   style: toolsTextStyle,
                   image: _buildBtn(
-                    icon: IconUtil.toolsFile(),
+                    icon: ImageUtil.toolsFile(),
                     onTap: widget.onTapFile,
                   ),
                 )),
@@ -137,7 +137,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
                   label: UILocalizations.location,
                   style: toolsTextStyle,
                   image: _buildBtn(
-                    icon: IconUtil.toolsLocation(),
+                    icon: ImageUtil.toolsLocation(),
                     onTap: widget.onTapLocation,
                   ),
                 )),
@@ -225,7 +225,7 @@ class _ChatToolsViewState extends State<ChatToolsView>
                   Center(
                     child: LongPressRippleAnimation(
                       radius: 44.h,
-                      child: IconUtil.voiceInputNor(),
+                      child: ImageUtil.voiceInputNor(),
                       onStart: widget.onStartVoiceInput,
                       onStop: widget.onStopVoiceInput,
                     ),

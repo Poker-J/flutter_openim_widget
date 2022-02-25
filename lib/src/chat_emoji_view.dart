@@ -102,7 +102,7 @@ class ChatEmojiView extends StatelessWidget {
                       height: 25.h,
                       // color: Colors.black45.withOpacity(0.4),
                       child: Center(
-                        child: IconUtil.assetImage(
+                        child: ImageUtil.assetImage(
                           'ic_del_face',
                           width: 18.w,
                           height: 16.h,
@@ -138,7 +138,7 @@ class ChatEmojiView extends StatelessWidget {
                     onTap: () =>
                         onAddEmoji?.call(emojiFaces.keys.elementAt(index)),
                     child: Center(
-                      child: IconUtil.assetImagePng(
+                      child: ImageUtil.assetImagePng(
                         emojiFaces.values.elementAt(index),
                         width: 30.h,
                         height: 30.h,
