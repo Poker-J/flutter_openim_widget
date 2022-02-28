@@ -485,7 +485,7 @@ class _ChatItemViewState extends State<ChatItemView> {
             var text;
             if (MessageType.revoke == widget.message.contentType) {
               var who = _isFromMsg
-                  ? widget.message.senderNickname
+                  ? widget.message.senderNickName
                   : UILocalizations.you;
               text = '$who ${UILocalizations.revokeAMsg}';
             } else {
@@ -532,9 +532,9 @@ class _ChatItemViewState extends State<ChatItemView> {
         isReceivedMsg: _isFromMsg,
         isSingleChat: widget.isSingleChat,
         avatarSize: widget.avatarSize ?? 42.h,
-        rightAvatar: OpenIM.iMManager.uInfo.faceURL!,
+        rightAvatar: OpenIM.iMManager.uInfo.icon!,
         leftAvatar: widget.message.senderFaceUrl!,
-        leftName: widget.message.senderNickname!,
+        leftName: widget.message.senderNickName!,
         isUnread: !widget.message.isRead!,
         leftBubbleColor: widget.leftBubbleColor,
         rightBubbleColor: widget.rightBubbleColor,
