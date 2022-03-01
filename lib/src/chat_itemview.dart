@@ -489,9 +489,43 @@ class _ChatItemViewState extends State<ChatItemView> {
                   : UILocalizations.you;
               text = '$who ${UILocalizations.revokeAMsg}';
             } else {
+
               try {
                 var content = json.decode(widget.message.content!);
-                text = content['defaultTips'];
+                String tip = content['defaultTips'] ?? '';
+                // text = tip.replaceAll(RegExp(r'[A-z]'), '');
+                // text = content['defaultTips'] ?? '';
+                if (tip.contains('invited into the group chat by')) {
+                  text = tip
+                      .replaceAll('   invited into the group chat by ', '被')
+                      .trim() +
+                      '邀请入群!';
+                } else if (tip.contains('You have successfully become friends')) {
+                  text = tip
+                      .replaceAll(
+                      'You have successfully become friends, so start chatting',
+                      '你们已经成功地成为了朋友，开始聊天吧')
+                      .trim();
+                } else if (tip.contains('join the group')) {
+                  text = tip.replaceAll('join the group', '加入群聊').trim();
+                } else if (tip.contains('You have joined the group chat:')) {
+                  text = tip
+                      .replaceAll('You have joined the group chat:', '您已加入群聊!')
+                      .trim();
+                } else if (tip
+                    .contains('kicked out of group chat by administrator')) {
+                  text = tip
+                      .replaceAll('  kicked out of group chat by administrator',
+                      '被管理员移除群聊!')
+                      .trim();
+                } else if (tip.contains('have quit group chat')) {
+                  text = tip
+                      .replaceAll('have quit group chat', '退出群聊!')
+                      .replaceAll('User:', '')
+                      .trim();
+                } else {
+                  text = tip;
+                }
               } catch (e) {
                 text = json.encode(widget.message);
               }
