@@ -29,7 +29,7 @@ dependencies:
   extended_image: 4.2.1
   chewie: ^1.2.2
   flutter_slidable: ^0.6.0
-  flutter_openim_sdk: ^1.0.8
+  flutter_openim_sdk: ^2.0.0+1
 
 
 dev_dependencies:

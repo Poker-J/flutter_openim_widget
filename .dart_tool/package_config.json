@@ -135,7 +135,7 @@
     },
     {
       "name": "flutter_openim_sdk",
-      "rootUri": "file:///D:/FlutterSDK/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_openim_sdk-1.0.9",
+      "rootUri": "file:///D:/FlutterSDK/flutter/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_openim_sdk-2.0.0+1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -506,7 +506,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2022-03-02T02:25:28.422451Z",
+  "generated": "2022-03-07T02:13:12.204295Z",
   "generator": "pub",
   "generatorVersion": "2.14.4"
 }
